@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Layout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style th:fragment="css-fragment">
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+        tr:nth-child(odd){
+            background-color: #cee6ff;
+        }
+
+        th {
+            background-color: #b492ff;
+        }
+    </style>
+</head>
+<body>
+<div class="jumbotron text-center" th:fragment="header-fragment">
+    <h1>Header</h1>
+</div>
+<div class="jumbotron text-center" th:fragment="footer-fragment">
+    <h1>Footer</h1>
+</div>
+<div class="container" th:fragment="product_table-fragment">
+    <div class="row">
+        <a th:href="@{/products/create}" class="col-sm-3">
+            <button class="btn btn-primary"><i class="fa fa-plus"> Add new Product</i></button>
+        </a>
+        <div class="col-sm-5"></div>
+        <div class="col-sm-4">
+            <form action="" method="post">
+                <label>
+                    <input type="text" class="form-control" placeholder="Search">
+                </label>
+                <button style="margin-bottom: 6px;" class="btn btn-success"><i class="fa fa-search">Search</i></button>
+            </form>
+        </div>
+    </div>
+    <table class="col-sm-12">
+        <tr>
+            <th>ID</th>
+            <th>QUANTITY</th>
+            <th>PRICE</th>
+            <th>NAME</th>
+            <th>CATEGORY</th>
+            <th>Edit | Delete | Detail</th>
+        </tr>
+        <div th:each="product:${products}">
+            <tr>
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.quantity}"></td>
+                <td th:text="${product.price}+'$'"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.category}"></td>
+                <td>
+                    <a href=""><button class="btn btn-secondary"><i class="fa fa-upload"></i></button></a>
+                    <a href=""><button class="btn btn-primary"><i class="fa fa-pencil"></i></button></a>
+                    <a href=""><button class="btn btn-danger"><i class="fa fa-remove"></i></button></a>
+                </td>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<h1>Create Product.</h1>
+<form id="create-new-product" method="post">
+    <input type="hidden" name="id" id="product_id" value="0">
+    <table>
+        <tr>
+            <th>Name</th>
+            <td>
+                <input type="text" name="name" id="name">
+            </td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>
+                <input type="text" name="price" id="price">
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>
+                <input type="text" name="description" id="description">
+            </td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>
+                <input type="date" name="date" id="date">
+            </td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td>
+                <input type="number" name="quantity" id="quantity">
+            </td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>
+                <select name="category" id="category">
+                    <option th:each="category:${categories}" th:value="${category.id}"
+                            th:text="${category.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <input type="submit" value="Save">
+            </th>
+        </tr>
+    </table>
+</form>
+<h1>All Product</h1>
+<table id="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Quantity</th>
+        <th>Category</th>
+    </tr>
+    <tr th:each="product:${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.date}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.category.name}"></td>
+        <td><a th:href="@{'/product/update/'+${product.id}}">Update</a></td>
+        <td>
+            <button class="remove_product" th:id="${product.id}">Remove</button>
+        </td>
+    </tr>
+    <tr></tr>
+</table>
+<h2 th:text="'Total money: '+${total_money}+' $'"></h2>
+<a href="/category/create" target="_blank">Create new Category</a><br>
+<a href="/product/create">Create new Product</a><br>
+<h2>Search by category: </h2>
+<form action="/product/category-search" method="post">
+    <select name="id" id="id">
+        <option th:each="category:${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+    <input type="submit" value="Search">
+</form>
+<a th:href="@{'/product/top5newest'}">Top 5 Newest</a>
+<a th:href="@{'/product/top5much-expensive'}">Top 5 Much Expensive</a>
+<script>
+    $(document).ready(function () {
+        $('#create-new-product').submit(function (event) {
+            let newProduct = {
+                "id": $('#product_id').val(),
+                "name": $('#name').val(),
+                "price": $('#price').val(),
+                "description": $('#description').val(),
+                "date": $('#date').val(),
+                "quantity": $('#quantity').val(),
+                "category": {
+                    "id": $('#category').val()
+                }
+            }
+            $.ajax({
+                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+                type: "POST",
+                data: JSON.stringify(newProduct),
+                url: "/product/create-product",
+                success: function (product) {
+                    let trNode = "<tr>";
+                    trNode += "<th>" + product.id + "</th>";
+                    trNode += "<th>" + product.name + "</th>";
+                    trNode += "<th>" + product.price + "</th>";
+                    trNode += "<th>" + product.description + "</th>";
+                    trNode += "<th>" + product.date.toString() + "</th>";
+                    trNode += "<th>" + product.quantity + "</th>";
+                    trNode += "<th>" + product.category.name + "</th>";
+                    trNode += "</tr>"
+                    $('#table').append(trNode);
+                }
+            })
+            event.preventDefault();
+        })
+    })
+
+
+    /*$(document).ready(function () {
+        $('.remove_product').click(function (event) {
+            let product = $(this);
+            let idP = product.attr("id");
+            $.ajax({
+                type: "DELETE",
+                url: "/product/remove/" + idP,
+                success: function (message) {
+                    product.parent().parent().remove();
+                    alert(message);
+                },
+                error: function () {
+                    alert("Some Error has been occurred!")
+                }
+            })
+            event.preventDefault();
+        })
+    })*/
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+<h1>Create Product.</h1>
+<form th:action="@{'/product/'+${product.id==null?'create-product':'update-product'}}" method="post" th:object="${product}">
+    <input type="hidden" name="id" th:value="*{id}">
+    <table>
+        <tr>
+            <th>Name</th>
+            <td>
+                <input type="text" name="name" th:value="*{name}">
+            </td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>
+                <input type="text" name="price" th:value="*{price}">
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>
+                <input type="text" name="description" th:value="*{description}">
+            </td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>
+                <input type="date" name="date" th:value="*{date}">
+            </td>
+        </tr>
+        <tr>
+            <th>Quantity</th>
+            <td>
+                <input type="number" name="quantity" th:value="*{quantity}">
+            </td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>
+                <select name="category" id="category">
+                    <option th:selected="${product.category!=null and product.category.id==category}"
+                            th:each="category:${categories}" th:value="${category.id}"
+                            th:text="${category.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <input type="submit" value="Save">
+            </th>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
