@@ -3,7 +3,6 @@ package demo.demo_chat_websocket.interceptor;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.server.ServerHttpRequest;

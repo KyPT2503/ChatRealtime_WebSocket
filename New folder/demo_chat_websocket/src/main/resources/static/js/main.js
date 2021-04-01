@@ -13,7 +13,7 @@ var username = null;
 function connect() {
     username = document.querySelector('#username').innerText.trim();
 
-    var socket = new SockJS('/ws');
+    let socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, onConnected, onError);
@@ -89,4 +89,4 @@ function onMessageReceived(payload) {
 }
 
 
-messageForm.addEventListener('submit', sendMessage, true);
+messageForm.addEventListener('submit', sendMessage,true);

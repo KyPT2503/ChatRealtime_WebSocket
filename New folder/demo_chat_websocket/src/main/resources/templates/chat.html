@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <title>Chat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-
-    <!-- https://cdnjs.com/libraries/sockjs-client -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-    <!-- https://cdnjs.com/libraries/stomp.js/ -->
-    <script  src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <script th:src="@{/js/sockjs.js}"></script>
+    <script th:src="@{/js/stomp.js}"></script>
 </head>
 <body>
 <div id="chat-container">
